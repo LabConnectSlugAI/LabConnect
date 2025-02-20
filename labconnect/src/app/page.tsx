@@ -9,7 +9,7 @@ interface Lab {
   "Professor Name": string;
   "Contact": string;
   "Lab Name": string;
-  "Department/Major": string;
+  "Major": string;
   "How to apply": string;
   "Description": string;
 }
@@ -25,7 +25,7 @@ export default function LabSearch() {
     const { data, error } = await supabase
       .from("labconnect")
       .select()
-      .ilike("Department/Major", `%${major}%`); // Filter by major
+      .ilike("Major", `%${major}%`); // Filter by major
 
     if (error) {
       console.error("Error fetching labs:", error);
