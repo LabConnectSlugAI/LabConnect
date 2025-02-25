@@ -124,14 +124,14 @@ export default function LabSearch() {
           {
             role: "system",
             content: `Analyze the following resume details and compare them with these lab descriptions. For each lab, provide:
-- A similarity score (1-5)
-- A match reason (short bullet points explaining the match)
-Consider the applicant's major ("${resumeDetails.major}") and keywords ("${resumeDetails.keywords}") in your analysis.
-Respond in the following format for each lab:
-Lab ID: <id>
-Similarity Score: <score>
-Match Reason: <reason>
----`,
+            - A similarity score (1-5)
+            - A match reason (short bullet points explaining the match)
+            Consider the applicant's major ("${resumeDetails.major}") and keywords ("${resumeDetails.keywords}") in your analysis.
+            Respond in the following format for each lab:
+            Lab ID: <id>
+            Similarity Score: <score>
+            Match Reason: <reason>
+            ---`,
           },
           {
             role: "user",
@@ -189,7 +189,12 @@ Match Reason: <reason>
             (b.similarity_score || 0) - (a.similarity_score || 0)
         );
 
-      setLabs(enhancedLabs);
+      // Filter labs to only include those with a similarity score of 4 or higher
+      const highMatchLabs = enhancedLabs.filter(
+        (lab: LabAnalysis) => lab.similarity_score && lab.similarity_score >= 3
+      );
+
+      setLabs(highMatchLabs);
     } catch (err) {
       console.error("Error processing image:", err);
       setError(
@@ -204,7 +209,7 @@ Match Reason: <reason>
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
-      <h1 className="text-3xl font-bold mb-4">LabConnect</h1>
+      <h1 className="text-3xl font-bold mb-4 text-black">LabConnect</h1>
       <p className="mb-4 text-gray-600">
         Upload your resume to find matching labs
       </p>
